@@ -17,7 +17,7 @@ const App = () => {
 
 return (
   <div className='landing'>
-    <h1>Wallet connected, now what?</h1>
+    <h1>👀  Wallet connected to FunzaDAO, now what?</h1>
     </div>
 )
 }
