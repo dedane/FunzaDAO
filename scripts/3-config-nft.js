@@ -9,8 +9,8 @@ const editionDrop = sdk.getEditionDrop(process.env.EditionDropAddress);
     try {
       await editionDrop.createBatch([
         {
-          name: "Leaf Village Headband",
-          description: "This NFT will give you access to NarutoDAO!",
+          name: "Mwalimu",
+          description: "This NFT will give you access to the teaching Portal",
           image: readFileSync("scripts/assets/Funza.png.png"),
         },
       ]);
