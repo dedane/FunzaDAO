@@ -1,4 +1,4 @@
-import { useAddress, useMetamask, useEditionDrop } from '@thirdweb-dev/react';
+import { useAddress, useMetamask, useEditionDrop  } from '@thirdweb-dev/react';
 import { EditionDrop } from '@thirdweb-dev/sdk';
 import {useState, useEffect} from 'react'
 
@@ -11,7 +11,7 @@ const App = () => {
   console.log(" address:", address);
 
   //Edition drop address on rinkeby testnet
-  const editionDrop  = useEditionDrop(process.env.EditionDropAddress);
+  const editionDrop  = useEditionDrop (process.env.EditionDropAddress);
   //State variable to check if they have an Nft
   const [hasClaimedNft, setHasClaimedNft] = useState(false);
   //State variable to keep a loading screen while  NFT is minting
