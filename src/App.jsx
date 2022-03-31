@@ -1,8 +1,8 @@
 import { useAddress, useMetamask, useEditionDrop } from '@thirdweb-dev/react';
 import { EditionDrop } from '@thirdweb-dev/sdk';
 import {useState, useEffect} from 'react'
-import dotenv from "dotenv";
-dotenv.config();
+
+
 
 const App = () => {
 
@@ -66,7 +66,7 @@ const App = () => {
 }
 
 return (
-  <div className='Mint-Nft'>
+  <div className='mint-nft'>
     <h1>Mint your free 👨‍🏫👩‍🏫  DAO membership NFT</h1>
     <button
       disabled={isClaiming}
