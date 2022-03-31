@@ -14,6 +14,8 @@ const App = () => {
   const editionDrop  = useEditionDrop(process.env.EditionDropAddress);
   //State variable to check if they have an Nft
   const [hasClaimedNft, setHasClaimedNft] = useState(false);
+  //State variable to keep a loading screen while  NFT is minting
+  const [isClaiming, setIsClaiming] = useState(false)
 
   useEffect(() => {
     //If they dont have a connected wallet
@@ -25,20 +27,34 @@ const App = () => {
         const balance = await EditionDrop.balanceOf(address, 0);
         if(balance.gt(0)){
           setHasClaimedNft(true);
-          console.log("This used has a membership NFT!")
+          console.log( "🚀 This used has a membership NFT!")
         } else {
           setHasClaimedNft(false);
-          console.log(" This user does not have a membership Nft")
+          console.log( " ☠ This user does not have a membership Nft")
         }
       }
       catch(err){
         setHasClaimedNft(false);
-        console.error("Failed to claim and Nft", err)
-
-      }
+        console.error( "😢 Failed to claim and Nft", err)
+      } 
     }
     checkBalance()
   },[address, editionDrop])
+
+  const mintNft = async() => {
+    try {
+      setIsClaiming(true);
+      await editionDrop.claim("0", 1);
+      console.log( ` 🌊 Successfully Minted! check it out on OpenSea: http://testnets.opensea.io/assets/${editionDrop.address}/0`);
+      setHasClaimedNft(true)
+    } catch(error){
+      setHasClaimedNft(false);
+      console.error( "🍂 Failed to mint Nft", error)
+    }
+    finally{
+      setIsClaiming(false);
+    }
+  }
 
   if(!address) {
   return (
@@ -50,8 +66,13 @@ const App = () => {
 }
 
 return (
-  <div className='landing'>
-    <h1>👀  Wallet connected to FunzaDAO, now what?</h1>
+  <div className='Mint-Nft'>
+    <h1>Mint your free 👨‍🏫👩‍🏫  DAO membership NFT</h1>
+    <button
+      disabled={isClaiming}
+      onClick={mintNft}>
+        {isClaiming ? "minting..." : "Mint your free Nft (FREE)"}
+      </button>
     </div>
 )
 }
