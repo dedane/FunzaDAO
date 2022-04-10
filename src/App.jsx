@@ -11,8 +11,8 @@ const App = () => {
   console.log(" address:", address);
 
   //Edition drop address on rinkeby testnet
-const editionDrop  = useEditionDrop("0x35F3FAC08975eA1dE1Ae8ce4FFbF743592a4c320");
-const token = useToken("0xeBAcfC634a98BbB11f7f0e48aBB3f132Ee004dcd");
+const editionDrop  = useEditionDrop('0x35F3FAC08975eA1dE1Ae8ce4FFbF743592a4c320');
+const token = useToken('0xeBAcfC634a98BbB11f7f0e48aBB3f132Ee004dcd');
   
   //State variable to check if they have an Nft
   const [hasClaimedNFT, setHasClaimedNft] = useState(false);
@@ -29,22 +29,22 @@ const token = useToken("0xeBAcfC634a98BbB11f7f0e48aBB3f132Ee004dcd");
     return str.substring(0, 6) + "..." + str.substring(str.length - 4);
   }
 
-  //Gras all the addresses of our members holding the NFT
+  //Grabs all the addresses of our members holding the NFT
   useEffect(() => {
     if(!hasClaimedNFT){
       return;
     }
     const getAllAddresses = async () => {
     try{
-      const allAddresses = await editionDrop.history.getAllAddresses();
-      setMembersAddresses(membersAddresses);
+      const allAddresses = await editionDrop.history.getAllClaimerAddresses(0);
+      setMembersAddresses(allAddresses);
       console.log("🙋 Members Addresses:", allAddresses);
     } catch(err){
       console.log("Error getting all addresses:", err);
     }
   };
   getAllAddresses();
-},[hasClaimedNFT, editionDrop.history, membersAddresses]);
+},[hasClaimedNFT, editionDrop.history]);
 
 //This useEffects get the number of tokens each member has
 useEffect(() => {
@@ -66,7 +66,7 @@ useEffect(() => {
 
 //Now we combine member addresses and token amounts to get a list of all members and their amounts
 const allMembers = useMemo(() => {
-  return membersAddresses.map((address, index) => {
+  return membersAddresses.map((address) => {
     // 1 . Check to find the addresses in memberTokenAmmounts array
     //2. when found, return the address and the amount
     //3. if not found, return the address and 0
