@@ -9,14 +9,14 @@ const token = sdk.getToken(process.env.TOKEN_ADDRESS);
     try {
         const walletAddress = await editionDrop.history.getAllClaimerAddresses(0);
 
-        if(walletAddresses.length === 0){
+        if(walletAddress.length === 0){
             console.log(
                 "No NFTs have been claimed yet, maybe get some friends to claim your free NFTs"
 
             );
             process.exit(0);
         }
-        const airdropTargets = walletAddresses.map((address) => {
+        const airdropTargets = walletAddress.map((address) => {
                 //Pick a random # Betweeen 1000 and 10000
                 const randomAmount = Math.floor(Math.random() * (10000 - 1000 + 1) + 1000);
                 console.log("💰 Sending", randomAmount, "$Funza to", address);
