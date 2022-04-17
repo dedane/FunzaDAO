@@ -12,7 +12,7 @@ const App = () => {
 
   //Edition drop address on rinkeby testnet
 const editionDrop  = useEditionDrop('0x17eEd51F1b245FB2725216169eeA57E59965bF9e');
-const token = useToken('0xE3340946deDDF6Fc3B9Ac0E07134881E31Ce70B6');
+const token = useToken('0xb8f89f090854cd45bfa7165904bac38c3eb42236');
 const vote = useVote('0xb9Ae5865878150b104e7aECe239eB96B85c13766')
   
   //State variable to check if they have an Nft
