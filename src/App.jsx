@@ -11,9 +11,9 @@ const App = () => {
   console.log(" address:", address);
 
   //Edition drop address on rinkeby testnet
-const editionDrop  = useEditionDrop('0x35F3FAC08975eA1dE1Ae8ce4FFbF743592a4c320');
-const token = useToken('0xeBAcfC634a98BbB11f7f0e48aBB3f132Ee004dcd');
-const vote = useVote('0xe9bb89ef7967b4b6b2675e556cd09f277d5f953b')
+const editionDrop  = useEditionDrop('0x17eEd51F1b245FB2725216169eeA57E59965bF9e');
+const token = useToken('0xE3340946deDDF6Fc3B9Ac0E07134881E31Ce70B6');
+const vote = useVote('0xb9Ae5865878150b104e7aECe239eB96B85c13766')
   
   //State variable to check if they have an Nft
   const [hasClaimedNFT, setHasClaimedNft] = useState(false);

@@ -1,5 +1,5 @@
 import sdk from './1-initialize-sdk.js';
-import { ethers } from 'ethers';
+import { ethers } from "ethers";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -14,27 +14,28 @@ const token = sdk.getToken(process.env.TOKEN_ADDRESS);
         const amount = 420_000;
         const description = "Should the DAO mint an additional" + amount + " tokens into the treasury?";
         const executions = [
-            {
-                //Our token contract that actually executes the mint
-                toAddess: token.getAddress(),
-                //Our native token is eth
-                //to send in this proposal. in this case we are sending in 0 ETH
-                //We're just ,minting new tokens to the treasury so we set it to 0
-                nativeTokenValue: 0,
-                //We're doing a mint so that we can vote
-                //acting as our treasury
-                //In this case we are using ether.js to convert the amount
-                //to the correct amount. this is because the amount it requires is in wei
-                transactionData: token.encoder.encode(
-                    "mintTo", [
-                        vote.getAddress(),
-                        ethers.utils.parseUnits(amount.toString(), 18)
-                    ]
-                )
-            }
-        ]
+          {
+            // Our token contract that actually executes the mint.
+            toAddress: token.getAddress(),
+            // Our nativeToken is ETH. nativeTokenValue is the amount of ETH we want
+            // to send in this proposal. In this case, we're sending 0 ETH.
+            // We're just minting new tokens to the treasury. So, set to 0.
+            nativeTokenValue: 0,
+            // We're doing a mint! And, we're minting to the vote, which is
+            // acting as our treasury.
+            // in this case, we need to use ethers.js to convert the amount
+            // to the correct format. This is because the amount it requires is in wei.
+            transactionData: token.encoder.encode(
+              "mintTo", [
+              vote.getAddress(),
+              ethers.utils.parseUnits(amount.toString(), 18),
+            ]
+            ),
+          }
+        ];
+        await token.delegateTo(process.env.WALLET_ADDRESS);
         await vote.propose(description, executions);
-        console.log("✅ Proposal created");
+        console.log("✅ Proposal created successfull");
 
     } catch(err){
         console.error("Failed to create the first proposal:", err);
@@ -61,7 +62,7 @@ const token = sdk.getToken(process.env.TOKEN_ADDRESS);
             toAddress: token.getAddress(),
           },
         ];
-    
+        await token.delegateTo(process.env.WALLET_ADDRESS);
         await vote.propose(description, executions);
     
         console.log(
