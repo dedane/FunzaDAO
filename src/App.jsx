@@ -1,7 +1,7 @@
 import { useAddress, useMetamask, useEditionDrop, useToken, useVote  } from '@thirdweb-dev/react';
 import { EditionDrop } from '@thirdweb-dev/sdk';
 import {useState, useEffect, useMemo} from 'react'
-
+import { AddressZero } from "@ethersproject/constants";
 
 
 const App = () => {
@@ -203,6 +203,105 @@ if(hasClaimedNFT){
               })}
             </tbody>
           </table>
+        </div>
+        <div>
+          <h2>Active Proposals</h2>
+          <form
+              onSubmit={async (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setIsVoting(true);
+
+                const votes = proposals.map((proposal) => {
+                  const voteResult = {
+                    proposalId: proposal.proposalId,
+                    //abstain by default
+                    vote: 2,
+                  };
+                  proposal.votes.forEach((vote) => {
+                    const elem = document.getElementById(
+                      proposal.proposalId + "." + vote.type
+                    );
+                    if (elem.checked) {
+                      voteResult.vote = vote.type;
+                      return
+                    }
+                  })
+                  return voteResult;
+                })
+                try {
+                  const delegation = await token.getDelegationOf(address);
+
+                  if (delegation === AddressZero){
+                    await token.delegateTo(address)
+                  }
+                  try{
+                    await Promise.all(
+                      votes.map(async ({proposalId, vote: _vote}) => {
+                        const proposal = await vote.get(proposalId);
+
+                        if(proposal.state === 1){
+                          return vote.vote(proposalId, _vote);
+                        }
+                        return;
+                      })
+                    );
+                    try {
+                      await Promise.all(
+                        votes.map(async ({proposalId}) => {
+                          const proposal = await vote.get(proposalId);
+                          if(proposal.state === 4){
+                            return vote.execute(proposalId);
+                          }
+                        })
+                      )
+                        setHasVoted(true);
+
+                        console.log("Successfully voted!");
+                    }
+                    catch(err){
+                      console.error("Failed to vote", err);
+                    }
+                } catch(err){
+                  console.error("Failed to delegate", err);
+                } 
+              }
+                catch(err){
+                  console.error("Failed to vote", err);
+                }
+                finally {
+                  setIsVoting(false);
+                }
+              }}
+              >
+                {proposals.map((proposal) => (
+                  <div key={proposal.proposalId} className="card">
+                    <h5>{proposal.description}</h5>
+                  <div>
+                  {proposal.votes.map(({ type, label}) => (
+                    <div key={type}>
+                      <input  
+                        type="radio"
+                        id={proposal.proposalId + "-" + type}
+                        name={proposal.proposalId}
+                        value={type}
+                        defaultChecked={type === 2} />
+                        <label htmlFor={proposal.proposalId + "-" + type}>{label}</label>
+                    </div>
+                  
+                ))}
+                </div>
+                </div>
+                ))}
+                <button disabled={isVoting || hasVoted} type="submit">
+                  {isVoting ? "Voting..." : hasVoted ? "You already voted" : "Submit Vote"}
+                </button>
+                {!hasVoted && (
+                  <small>
+                    This will trigger multiple transactions that you will need to sign
+                  </small>
+                )}
+              </form>
         </div>
       </div>
     </div>
