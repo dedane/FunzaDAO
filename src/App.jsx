@@ -205,7 +205,7 @@ const vote = useVote('0xb9Ae5865878150b104e7aECe239eB96B85c13766')
  if (hasClaimedNFT) {
    return (
      <div className="member-page">
-       <h1>🍪DAO Member Page</h1>
+       <h1>👨‍🏫  Funza DAO  👩‍🏫 </h1>
        <p>Congratulations on being a member</p>
        <div>
          <div>
@@ -361,7 +361,7 @@ const vote = useVote('0xb9Ae5865878150b104e7aECe239eB96B85c13766')
  // Render mint nft screen.
  return (
    <div className="mint-nft">
-     <h1>Mint your free 🍪DAO Membership NFT</h1>
+     <h1>Mint your free 👨‍🏫  DAO Membership NFT 👩‍🏫 </h1>
      <button
        disabled={isClaiming}
        onClick={mintNft}
