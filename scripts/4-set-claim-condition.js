@@ -7,8 +7,8 @@ const editionDrop = sdk.getEditionDrop(process.env.EditionDropAddress);
 (async() => {
  try{
     const claimConditions = [{
-        staetTime: new Date(),
-        maxQuantity: 50000,
+        startTime: new Date(),
+        maxQuantity: 50_000,
         price: 0,
         quanityLimitPerTransaction: 1,
         waitInSeconds: MaxUint256,
